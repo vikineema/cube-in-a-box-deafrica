@@ -31,11 +31,12 @@ jobs:
           username: gadockersvc
           password: ${{ secrets.GADOCKERSVC_PASSWORD }}
 
-      - uses: qoqa/action-s3-cp@v1.1
-        env:
-          AWS_S3_BUCKET: deafrica-cube-in-a-box
-          AWS_ACCESS_KEY_ID: ${{ secrets.GA_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.GA_AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'af-south-1'
-          AWS_S3_PATH: '/cube-in-a-box-cloudformation.yml'
-          FILE: 'cube-in-a-box-cloudformation.yml'
+      - name: Copy a folder to s3
+        uses: prewk/s3-cp-action@v2
+        with:
+          aws_access_key_id: ${{ secrets.GA_AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.GA_AWS_SECRET_ACCESS_KEY }}
+          source: 'cube-in-a-box-cloudformation.yml'
+          dest: 's3://deafrica-dev-cfn/cube-in-a-box/cube-in-a-box-cloudformation.yml'
+          flags: --acl public-read
+          aws_region: 'af-south-1'
