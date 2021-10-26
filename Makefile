@@ -6,7 +6,7 @@
 .PHONY: help setup up down clean
 
 BBOX := 14.6,-36.3,35.9,-20.7
-INDEX_LIMIT := 10
+INDEX_LIMIT := 1000
 
 help: ## Print this help
 	@grep -E '^##.*$$' $(MAKEFILE_LIST) | cut -c'4-'
@@ -15,6 +15,10 @@ help: ## Print this help
 
 setup: build up init products index ## Run a full local/development setup
 setup-prod: up-prod init products index ## Run a full production setup
+
+build: ## 0. Build the base image
+	docker-compose pull
+	docker-compose build
 
 up: ## 1. Bring up your Docker environment
 	docker-compose up -d postgres
@@ -29,9 +33,9 @@ products: ## 3. Add all product definitions
 
 index: index-pass ## 4. Index most products
 
-index-pass: index-fc_ls index-gm_ls5_ls7_annual index-gm_ls8_annual index-gm_s2_annual index-gm_s2_annual_lowres index-gm_s2_semiannual index-io_lulc index-gm_s2_semiannual index-io_lulc index-ls5_sr index-ls5_st index-ls7_sr index-ls7_st index-ls8_sr index-ls8_st index-pc_s2_annual index-rainfall_chirps_monthly index-s1_rtc index-s2_l2a index-wofs_ls index-wofs_ls_summary_alltime index-wofs_ls_summary_annual
+index-pass: index-fc_ls index-gm_ls5_ls7_annual index-gm_ls8_annual index-gm_s2_annual index-gm_s2_annual_lowres index-gm_s2_semiannual index-io_lulc index-gm_s2_semiannual index-io_lulc index-ls5_sr index-ls5_st index-ls7_sr index-ls7_st index-ls8_sr index-ls8_st index-pc_s2_annual index-rainfall_chirps_monthly index-s1_rtc index-s2_l2a index-wofs_ls index-wofs_ls_summary_alltime index-wofs_ls_summary_annual index-dem_srtm
 
-index-fails: index-alos_palsar_mosaic index-dem_srtm index-jers_sar_mosaic index-jers_sar_mosaic
+index-fails: index-alos_palsar_mosaic index-jers_sar_mosaic
 
 index-blank: index-crop_mask_eastern index-crop_mask_northern index-crop_mask_western
 
@@ -219,10 +223,6 @@ index-wofs_ls_summary_annual:
 
 down: ## Bring down the system
 	docker-compose down
-
-build: ## Rebuild the base image
-	docker-compose pull
-	docker-compose build
 
 shell: ## Start an interactive shell
 	docker-compose exec jupyter bash
