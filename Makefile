@@ -7,7 +7,7 @@
 
 BBOX := 14.6,-36.3,35.9,-20.7
 INDEX_LIMIT := 100
-DATE_START := $(shell date -d "-1 months" +%Y-%m-%d)
+DATE_START := $(shell date -d "-3 months" +%Y-%m-%d)
 DATE_END := $(shell date +%Y-%m-%d)
 
 help: ## Print this help
@@ -57,6 +57,7 @@ index-alos_palsar_mosaic:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=alos_palsar_mosaic \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with alos_palsar_mosaic"
 
@@ -66,6 +67,7 @@ index-crop_mask_eastern:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=crop_mask_eastern \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with crop_mask_eastern"
 
@@ -75,6 +77,7 @@ index-crop_mask_northern:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=crop_mask_northern \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with crop_mask_northern"
 
@@ -84,6 +87,7 @@ index-crop_mask_western:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=crop_mask_western \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with crop_mask_western"
 
@@ -102,6 +106,7 @@ index-fc_ls:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=fc_ls \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with fc_ls"
 
@@ -111,6 +116,7 @@ index-gm_ls5_ls7_annual:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=gm_ls5_ls7_annual \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with gm_ls5_ls7_annual"
 
@@ -120,6 +126,7 @@ index-gm_ls8_annual:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=gm_ls8_annual \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with gm_ls8_annual"
 
@@ -129,6 +136,7 @@ index-gm_s2_annual:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=gm_s2_annual \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with gm_s2_annual"
 
@@ -138,6 +146,7 @@ index-gm_s2_annual_lowres:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=gm_s2_annual_lowres \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with gm_s2_annual_lowres"
 
@@ -147,6 +156,7 @@ index-gm_s2_semiannual:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=gm_s2_semiannual \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with gm_s2_semiannual"
 
@@ -156,6 +166,7 @@ index-io_lulc:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=io_lulc \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with io_lulc"
 
@@ -165,6 +176,7 @@ index-jers_sar_mosaic:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=jers_sar_mosaic \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with jers_sar_mosaic"
 
@@ -174,6 +186,7 @@ index-ls5_sr:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=ls5_sr \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with ls5_sr"
 
@@ -183,6 +196,7 @@ index-ls5_st:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=ls5_st \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with ls5_st"
 
@@ -192,6 +206,7 @@ index-ls7_sr:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=ls7_sr \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with ls7_sr"
 
@@ -201,6 +216,7 @@ index-ls7_st:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=ls7_st \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with ls7_st"
 
@@ -210,6 +226,7 @@ index-ls8_sr:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=ls8_sr \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with ls8_sr"
 
@@ -219,6 +236,7 @@ index-ls8_st:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=ls8_st \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with ls8_st"
 
@@ -228,6 +246,7 @@ index-pc_s2_annual:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=pc_s2_annual \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with pc_s2_annual"
 
@@ -237,6 +256,7 @@ index-rainfall_chirps_monthly:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=rainfall_chirps_monthly \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with rainfall_chirps_monthly"
 
@@ -246,6 +266,7 @@ index-s1_rtc:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=s1_rtc \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with s1_rtc"
 
@@ -255,6 +276,7 @@ index-s2_l2a:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=s2_l2a \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with s2_l2a"
 
@@ -264,6 +286,7 @@ index-wofs_ls:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=wofs_ls \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with wofs_ls"
 
@@ -273,6 +296,7 @@ index-wofs_ls_summary_alltime:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=wofs_ls_summary_alltime \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with wofs_ls_summary_alltime"
 
@@ -282,6 +306,7 @@ index-wofs_ls_summary_annual:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=wofs_ls_summary_annual \
 		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with wofs_ls_summary_annual"
 

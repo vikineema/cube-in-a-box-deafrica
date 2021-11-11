@@ -4,7 +4,6 @@ products=(
   fc_ls
   ls7_st
   ls8_sr
-  s2_l2a
   dem_srtm
   io_lulc
   wofs_ls_summary_annual
@@ -23,6 +22,7 @@ products=(
   ls8_st
   wofs_ls
 )
+single=(s2_l2a)
 
 for product in ${products[@]}; do
   make index-$product &
@@ -31,6 +31,9 @@ for product in ${products[@]}; do
   done
 done
 wait
+for product in ${single[@]}; do
+  make index-$product
+done
 
 
 # dem_srtm 0 35 seconds
