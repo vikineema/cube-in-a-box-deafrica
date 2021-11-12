@@ -1,55 +1,39 @@
 #!/usr/bin/env bash
 
 products=(
-  fc_ls
-  ls7_st
-  ls8_sr
-  dem_srtm
-  io_lulc
-  wofs_ls_summary_annual
-  rainfall_chirps_monthly
-  wofs_ls_summary_alltime
-  pc_s2_annual
-  s1_rtc
-  gm_ls5_ls7_annual
-  gm_ls8_annual
-  gm_s2_annual
-  gm_s2_annual_lowres
-  gm_s2_semiannual
-  ls5_sr
-  ls5_st
-  ls7_sr
-  ls8_st
-  wofs_ls
+  index-fc_ls # 20 minutes
+  index-wofs_ls # 20 minutes
+  index-ls8_st # 7 minutes
+  index-alos_palsar_mosaic
+  index-crop_mask_eastern
+  index-ls8_sr # 8 minutes
+  index-crop_mask_western
+  index-crop_mask_northern
+  index-ls5_sr # 5 minutes
+  index-s2_l2a # 7 minutes
+  index-dem_srtm
+  index-gm_ls5_ls7_annual
+  index-gm_ls8_annual
+  index-gm_s2_annual
+  index-ls5_st # 5 minutes
+  index-gm_s2_annual_lowres
+  index-gm_s2_semiannual
+  index-ls7_sr # 7 minutes
+  index-io_lulc
+  index-jers_sar_mosaic
+  index-ls7_st # 7 minutes
+  index-pc_s2_annual
+  index-rainfall_chirps_monthly
+  index-s1_rtc
+  index-wofs_ls_summary_alltime
+  index-wofs_ls_summary_annual
 )
-single=(s2_l2a)
 
 for product in ${products[@]}; do
-  make index-$product &
+  make $product &
   while [[ $(jobs -p | wc -l) -ge 3 ]]; do
     sleep 0.5
   done
 done
 wait
-for product in ${single[@]}; do
-  make index-$product
-done
 
-
-# dem_srtm 0 35 seconds
-# fc_ls 1091 18 minutes
-# gm_ls5_ls7_annual 0 7 seconds
-# gm_ls8_annual 0 3 seconds
-# gm_s2_annual 0 2 seconds
-# gm_s2_annual_lowres 0 2 seconds
-# gm_s2_semiannual 0 1 second
-# io_lulc 0 1 second
-# ls5_sr 0 40 seconds
-# ls5_st 0 2 seconds
-# ls7_sr 397 5.5 minutes
-# ls7_st 397 10 minutes
-# ls8_sr 695 7 minutes
-# ls8_st 695 7 minutes
-# pc_s2_annual 0 3 seconds
-# rainfall_chirps_monthly 2 2 seconds
-# s1_rtc 6140 4 minutes
