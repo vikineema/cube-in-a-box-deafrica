@@ -12,9 +12,6 @@ on:
     types:
       - created
 
-env:
-  IMAGE_NAME: digitalearthafrica/cube-in-a-box
-
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -29,7 +26,17 @@ jobs:
       - name: Build and Push latest Docker image tag
         uses: whoan/docker-build-with-cache-action@v4
         with:
-          image_name: ${{ env.IMAGE_NAME }}
+          image_name: digitalearthafrica/cube-in-a-box
           image_tag: latest
           username: gadockersvc
           password: ${{ secrets.GADOCKERSVC_PASSWORD }}
+
+      - name: Copy a folder to s3
+        uses: prewk/s3-cp-action@v2
+        with:
+          aws_access_key_id: ${{ secrets.GA_AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.GA_AWS_SECRET_ACCESS_KEY }}
+          source: 'cube-in-a-box-cloudformation.yml'
+          dest: 's3://deafrica-dev-cfn/cube-in-a-box/cube-in-a-box-cloudformation.yml'
+          flags: --acl public-read
+          aws_region: 'af-south-1'
