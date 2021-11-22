@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 products=(
-  index-fc_ls # 20 minutes
-  index-wofs_ls # 20 minutes
+  index-fc_ls # 2 minutes
+  index-wofs_ls # 2 minutes
   index-ls8_st # 7 minutes
   index-alos_palsar_mosaic
   index-crop_mask_eastern
-  index-ls8_sr # 8 minutes
+  index-ls8_sr # 2 minutes
   index-crop_mask_western
   index-crop_mask_northern
   index-ls5_sr # 5 minutes
@@ -31,7 +31,7 @@ products=(
 
 for product in ${products[@]}; do
   make $product &
-  while [[ $(jobs -p | wc -l) -ge 3 ]]; do
+  while [[ $(jobs -p | wc -l) -ge 2 ]]; do
     sleep 0.5
   done
 done

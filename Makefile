@@ -99,7 +99,7 @@ index-fc_ls:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=fc_ls \
 		--bbox=$(BBOX) \
-		--limit=$(INDEX_LIMIT) \
+		--limit=$$(($(INDEX_LIMIT)/2)) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with fc_ls"
 
@@ -269,7 +269,7 @@ index-wofs_ls:
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=wofs_ls \
 		--bbox=$(BBOX) \
-		--limit=$(INDEX_LIMIT) \
+		--limit=$$(($(INDEX_LIMIT)/2)) \
 		--datetime=$(DATE_START)/$(DATE_END)
 	@echo "$$(date) Done with wofs_ls"
 
