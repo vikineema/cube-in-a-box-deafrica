@@ -5,7 +5,11 @@
 ## at 'http://localhost' with password 'secretpassword'
 .PHONY: help setup up down clean
 
-BBOX := 25,20,35,30
+BBOX := 14.6,-36.3,35.9,-20.7
+INDEX_LIMIT := 1000
+INDEX_LIMIT_LOW := 100
+DATE_START := $(shell date -d "-3 months" +%Y-%m-%d)
+DATE_END := $(shell date +%Y-%m-%d)
 
 help: ## Print this help
 	@grep -E '^##.*$$' $(MAKEFILE_LIST) | cut -c'4-'
@@ -14,6 +18,18 @@ help: ## Print this help
 
 setup: build up init products index ## Run a full local/development setup
 setup-prod: up-prod init products index ## Run a full production setup
+
+reset:
+	make down
+	sudo rm -rf data
+	make up
+	make init
+	make products
+	#make index-parallel
+
+build: ## 0. Build the base image
+	docker-compose pull
+	docker-compose build
 
 up: ## 1. Bring up your Docker environment
 	docker-compose up -d postgres
@@ -26,28 +42,257 @@ init: ## 2. Prepare the database
 products: ## 3. Add all product definitions
 	docker-compose exec -T jupyter dc-sync-products https://raw.githubusercontent.com/digitalearthafrica/config/master/prod/products_prod.csv
 
-index: index-sentinel index-landsat ## 4. Index a few products
+index: index-pass ## 4. Index most products
+index-parallel:
+	INDEX_LIMIT=$(INDEX_LIMIT) DATE_START=$(DATE_START) DATE_END=$(DATE_END) INDEX_LIMIT_LOW=$(INDEX_LIMIT_LOW) bash index-parallel.sh
 
-index-sentinel:
+index-all: index-dem_srtm index-fc_ls index-gm_ls5_ls7_annual index-gm_ls8_annual index-gm_s2_annual index-gm_s2_annual_lowres index-gm_s2_semiannual index-io_lulc index-ls5_sr index-ls5_st index-ls7_sr index-ls7_st index-ls8_sr index-ls8_st index-pc_s2_annual index-rainfall_chirps_monthly index-s1_rtc index-s2_l2a index-wofs_ls index-wofs_ls_summary_alltime index-wofs_ls_summary_annual index-alos_palsar_mosaic index-jers_sar_mosaic index-crop_mask_eastern index-crop_mask_northern index-crop_mask_western
+
+index-alos_palsar_mosaic:
+	@echo "$$(date) Start with alos_palsar_mosaic"
 	docker-compose exec -T jupyter stac-to-dc \
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
-		--collections=s2_l2a \
+		--collections=alos_palsar_mosaic \
 		--bbox=$(BBOX) \
-		--limit=10
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with alos_palsar_mosaic"
 
-index-landsat:
+index-crop_mask_eastern:
+	@echo "$$(date) Start with crop_mask_eastern"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=crop_mask_eastern \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with crop_mask_eastern"
+
+index-crop_mask_northern:
+	@echo "$$(date) Start with crop_mask_northern"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=crop_mask_northern \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with crop_mask_northern"
+
+index-crop_mask_western:
+	@echo "$$(date) Start with crop_mask_western"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=crop_mask_western \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with crop_mask_western"
+
+index-dem_srtm:
+	@echo "$$(date) Start with dem_srtm"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=dem_srtm \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with dem_srtm"
+
+index-fc_ls:
+	@echo "$$(date) Start with fc_ls"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=fc_ls \
+		--bbox=$(BBOX) \
+		--limit=$$(($(INDEX_LIMIT)/2)) \
+		--datetime=$(DATE_START)/$(DATE_END)
+	@echo "$$(date) Done with fc_ls"
+
+index-gm_ls5_ls7_annual:
+	@echo "$$(date) Start with gm_ls5_ls7_annual"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=gm_ls5_ls7_annual \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with gm_ls5_ls7_annual"
+
+index-gm_ls8_annual:
+	@echo "$$(date) Start with gm_ls8_annual"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=gm_ls8_annual \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with gm_ls8_annual"
+
+index-gm_s2_annual:
+	@echo "$$(date) Start with gm_s2_annual"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=gm_s2_annual \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with gm_s2_annual"
+
+index-gm_s2_annual_lowres:
+	@echo "$$(date) Start with gm_s2_annual_lowres"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=gm_s2_annual_lowres \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with gm_s2_annual_lowres"
+
+index-gm_s2_semiannual:
+	@echo "$$(date) Start with gm_s2_semiannual"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=gm_s2_semiannual \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with gm_s2_semiannual"
+
+index-io_lulc:
+	@echo "$$(date) Start with io_lulc"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=io_lulc \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with io_lulc"
+
+index-jers_sar_mosaic:
+	@echo "$$(date) Start with jers_sar_mosaic"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=jers_sar_mosaic \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with jers_sar_mosaic"
+
+index-ls5_sr:
+	@echo "$$(date) Start with ls5_sr"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=ls5_sr \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with ls5_sr"
+
+index-ls5_st:
+	@echo "$$(date) Start with ls5_st"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=ls5_st \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with ls5_st"
+
+index-ls7_sr:
+	@echo "$$(date) Start with ls7_sr"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=ls7_sr \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
+		--datetime=$(DATE_START)/$(DATE_END)
+	@echo "$$(date) Done with ls7_sr"
+
+index-ls7_st:
+	@echo "$$(date) Start with ls7_st"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=ls7_st \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
+		--datetime=$(DATE_START)/$(DATE_END)
+	@echo "$$(date) Done with ls7_st"
+
+index-ls8_sr:
+	@echo "$$(date) Start with ls8_sr"
 	docker-compose exec -T jupyter stac-to-dc \
 		--catalog-href=https://explorer.digitalearth.africa/stac/ \
 		--collections=ls8_sr \
 		--bbox=$(BBOX) \
-		--datetime=2020-01-02
+		--limit=$(INDEX_LIMIT) \
+		--datetime=$(DATE_START)/$(DATE_END)
+	@echo "$$(date) Done with ls8_sr"
+
+index-ls8_st:
+	@echo "$$(date) Start with ls8_st"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=ls8_st \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
+		--datetime=$(DATE_START)/$(DATE_END)
+	@echo "$$(date) Done with ls8_st"
+
+index-pc_s2_annual:
+	@echo "$$(date) Start with pc_s2_annual"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=pc_s2_annual \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with pc_s2_annual"
+
+index-rainfall_chirps_monthly:
+	@echo "$$(date) Start with rainfall_chirps_monthly"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=rainfall_chirps_monthly \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
+		--datetime=$(DATE_START)/$(DATE_END)
+	@echo "$$(date) Done with rainfall_chirps_monthly"
+
+index-s1_rtc:
+	@echo "$$(date) Start with s1_rtc"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=s1_rtc \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT) \
+		--datetime=$(DATE_START)/$(DATE_END)
+	@echo "$$(date) Done with s1_rtc"
+
+index-s2_l2a:
+	@echo "$$(date) Start with s2_l2a"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=s2_l2a \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT_LOW) \
+		--datetime=$(DATE_START)/$(DATE_END)
+	@echo "$$(date) Done with s2_l2a"
+
+index-wofs_ls:
+	@echo "$$(date) Start with wofs_ls"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=wofs_ls \
+		--bbox=$(BBOX) \
+		--limit=$$(($(INDEX_LIMIT)/2)) \
+		--datetime=$(DATE_START)/$(DATE_END)
+	@echo "$$(date) Done with wofs_ls"
+
+index-wofs_ls_summary_alltime:
+	@echo "$$(date) Start with wofs_ls_summary_alltime"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=wofs_ls_summary_alltime \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with wofs_ls_summary_alltime"
+
+index-wofs_ls_summary_annual:
+	@echo "$$(date) Start with wofs_ls_summary_annual"
+	docker-compose exec -T jupyter stac-to-dc \
+		--catalog-href=https://explorer.digitalearth.africa/stac/ \
+		--collections=wofs_ls_summary_annual \
+		--bbox=$(BBOX) \
+		--limit=$(INDEX_LIMIT)
+	@echo "$$(date) Done with wofs_ls_summary_annual"
 
 down: ## Bring down the system
 	docker-compose down
-
-build: ## Rebuild the base image
-	docker-compose pull
-	docker-compose build
 
 shell: ## Start an interactive shell
 	docker-compose exec jupyter bash
