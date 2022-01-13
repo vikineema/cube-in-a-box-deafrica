@@ -42,7 +42,7 @@ init: ## 2. Prepare the database
 products: ## 3. Add all product definitions
 	docker-compose exec -T jupyter dc-sync-products https://raw.githubusercontent.com/digitalearthafrica/config/master/prod/products_prod.csv
 
-index: index-pass ## 4. Index most products
+index: index-parallel ## 4. Index most products
 index-parallel:
 	INDEX_LIMIT=$(INDEX_LIMIT) DATE_START=$(DATE_START) DATE_END=$(DATE_END) INDEX_LIMIT_LOW=$(INDEX_LIMIT_LOW) bash index-parallel.sh
 
