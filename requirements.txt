@@ -28,3 +28,4 @@ scikit-image
 tqdm
 click<8.0.0
 python-dateutil==2.7.5
+sat-search==0.3.0
