@@ -42,6 +42,12 @@ Once deployed, if you navigate to the IP of the deployed instance, you can acces
 
 [Launch a Cube in a Box](https://console.aws.amazon.com/cloudformation/home?#/stacks/new?stackName=cube-in-a-box&templateURL=https://deafrica-dev-cfn.s3.af-south-1.amazonaws.com/cube-in-a-box/cube-in-a-box-cloudformation.yml)
 
+You will need to have an SSH key setup in the region first:
+
+* [eu-west-1](https://eu-west-1.console.aws.amazon.com/ec2/v2/home?region=eu-west-1#KeyPairs:)
+* [us-west-2](https://us-west-2.console.aws.amazon.com/ec2/v2/home?region=us-west-2#KeyPairs:)
+* [ap-southeast-2](https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2#KeyPairs:)
+
 You need to be logged in to the AWS Console deploy using this URL. Once logged in, click the link, and follow the prompts including settings a bounding box region of interest, EC2 instance type and password for Jupyter.
 
 ### Command line
