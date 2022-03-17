@@ -311,9 +311,9 @@ push-image:
 
 up-prod: ## Bring up production version
 	docker-compose -f docker-compose-prod.yml pull
-	docker-compose -f docker-compose.yml -f docker-compose-prod.yml up --detach postgres
+	docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d postgres
 	docker-compose run checkdb
-	docker-compose -f docker-compose.yml -f docker-compose-prod.yml up --detach --no-build
+	docker-compose -f docker-compose.yml -f docker-compose-prod.yml up -d --no-build
 
 create-infra:  ## Deploy to AWS
 	aws cloudformation create-stack \
