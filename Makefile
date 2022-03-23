@@ -5,10 +5,17 @@
 ## at 'http://localhost' with password 'secretpassword'
 .PHONY: help setup up down clean
 
+# Use a different date command flag on Mac OS
+ifeq ($(shell uname),Darwin)
+		DATE_FLAG="-v-3m"
+else
+		DATE_FLAG="-d-3months"
+endif
+
 BBOX := 14.6,-36.3,35.9,-20.7
 INDEX_LIMIT := 1000
 INDEX_LIMIT_LOW := 100
-DATE_START := $(shell date -d "-3 months" +%Y-%m-%d)
+DATE_START := $(shell date $(DATE_FLAG) +%Y-%m-%d)
 DATE_END := $(shell date +%Y-%m-%d)
 
 help: ## Print this help
