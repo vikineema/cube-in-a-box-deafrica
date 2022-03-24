@@ -6,15 +6,15 @@
 .PHONY: help setup up down clean
 
 # Use a different date command flag on Mac OS
+DATE_FLAG="-d-3months"
 ifeq ($(shell uname),Darwin)
 		DATE_FLAG="-v-3m"
-else
-		DATE_FLAG="-d-3months"
 endif
 
-BBOX := 14.6,-36.3,35.9,-20.7
+# Default BBOX is over Rwanda
+BBOX := 25.0,-5.0,35.0,5.0
 INDEX_LIMIT := 1000
-INDEX_LIMIT_LOW := 100
+INDEX_LIMIT_LOW := 200
 DATE_START := $(shell date $(DATE_FLAG) +%Y-%m-%d)
 DATE_END := $(shell date +%Y-%m-%d)
 
