@@ -28,8 +28,8 @@ jobs:
         with:
           image_name: digitalearthafrica/cube-in-a-box
           image_tag: latest
-          username: gadockersvc
-          password: ${{ secrets.GADOCKERSVC_PASSWORD }}
+          username: deafricadockersvs
+          password: ${{ secrets.DEAFRICA_DOCKER_PASSWORD }}
           push_image_and_stages: on:push
 
       - name: Copy a folder to s3
