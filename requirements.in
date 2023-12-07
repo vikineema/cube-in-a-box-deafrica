@@ -1,33 +1,37 @@
 --extra-index-url https://packages.dea.ga.gov.au/
-datacube[performance,s3]
-aiobotocore[awscli,boto3]
 aiohttp
+aiobotocore[awscli,boto3]
 pyyaml
 wget
 requests
-datacube
+datacube[performance,s3]
 odc-algo
-odc-aws
-odc-aio
+odc-cloud
+odc-io
+odc-ui==0.2.1.dev3673
+odc-dscache
+odc-stac
+odc-stats
 odc-apps-cloud
 odc-apps-dc-tools
-odc-ui
-odc-index
 # Jupyter components.
-gdal
+gdal==3.6.3 # to match gdal in osgeo/gdal:ubuntu-small-3.6.3
 scipy
-Jupyter
+jupyter
 jupyterlab
-ipyleaflet
+ipyleaflet 
 folium
-pandas
-numpy
-xarray
-matplotlib
+pandas 
+numpy 
+xarray 
+matplotlib 
 geopandas
 scikit-image
 tqdm
-click<8.0.0
-python-dateutil
-pystac
-pystac-client
+click 
+python-dateutil 
+sat-search
+deafrica-tools>=2.1.1
+# for tests
+pytest
+testbook
